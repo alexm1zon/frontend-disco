@@ -3,7 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity
+  TouchableHighlight
 } from 'react-native';
 
 export default class Login extends Component {
@@ -16,15 +16,14 @@ export default class Login extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>
-          Welcome! /n
+          Temporary Welcome Page!
         </Text>
-
-        <TouchableOpacity
-            onPress={this.onLoginClick}
-            title="LOGIN"
-        >
-          <Text> LOGIN </Text>
-        </TouchableOpacity>
+        <TouchableHighlight
+          style={styles.button}
+          onPress={this.onLoginClick}
+          underlayColor='#fff'>
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableHighlight>
 
       </View>
     );
@@ -42,5 +41,22 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
+  },
+  button:{
+    marginRight:40,
+    marginLeft:40,
+    marginTop:10,
+    paddingTop:20,
+    paddingBottom:20,
+    backgroundColor:'#2aa202',
+    borderRadius:10,
+    borderWidth: 1,
+    borderColor: '#fff',
+    width: 150
+  },
+  buttonText:{
+    color:'#fff',
+    fontSize: 15,
+    textAlign:'center',
   }
 });
