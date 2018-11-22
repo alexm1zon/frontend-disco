@@ -11,9 +11,9 @@ export default class Accounts extends Component {
     super(props);
     this.state = {
        chequingAccountNumber: "64136167171",
-       chequingBalance: '1581.13',
+       chequingBalance: null,
        savingAccountNumber: "95181167171",
-       savingBalance: '9861.79',
+       savingBalance: null,
     };
   }
 
@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'stretch',
+    backgroundColor: 'white'
   },
   title: {
     fontSize: 20,
