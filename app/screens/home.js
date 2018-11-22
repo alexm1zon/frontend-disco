@@ -3,7 +3,8 @@ import {
   Button,
   StyleSheet,
   Text,
-  View
+  View,
+  TouchableHighlight
 } from 'react-native';
 
 export default class Home extends Component {
@@ -17,37 +18,33 @@ export default class Home extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>
-          Welcome
+          My CBA Mobile Application
         </Text>
-        <Button style={styles.button}
-          onPress={this.viewAccounts.bind(this)}
-          title="Accounts"
-          titleStyle={{ fontWeight: "700" }}
-          buttonStyle={{
-            backgroundColor: "rgba(92, 99,216, 1)",
-            width: 300,
-            height: 45,
-            borderColor: "transparent",
-            borderWidth: 0,
-            borderRadius: 5
-          }}
-          containerStyle={{ marginTop: 20 }}
-        />
-        <Button style={styles.button}
-          onPress={this.viewTransfers.bind(this)}
-          title="Transfers"
-          titleStyle={{ fontWeight: "700" }}
-          buttonStyle={{
-            backgroundColor: "rgba(92, 99,216, 1)",
-            width: 300,
-            height: 45,
-            borderColor: "transparent",
-            borderWidth: 0,
-            borderRadius: 5
-          }}
-          containerStyle={{ marginTop: 20 }}
-        />
-      </View>
+        <TouchableHighlight
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate("Accounts")}
+          underlayColor='#fff'>
+            <Text style={styles.buttonText}>View My Accounts</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate("Transfer")}
+          underlayColor='#fff'>
+            <Text style={styles.buttonText}>Pay Bill</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate("SendMoney")}
+          underlayColor='#fff'>
+            <Text style={styles.buttonText}>Send Money</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate("Deposit")}
+          underlayColor='#fff'>
+            <Text style={styles.buttonText}>Deposit</Text>
+        </TouchableHighlight>
+        </View>
     );
   }
 }
@@ -55,18 +52,29 @@ export default class Home extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    backgroundColor: 'white'
   },
   title: {
-    fontSize: 40,
+    marginTop: 40,
+    fontSize: 25,
     textAlign: 'center'
   },
-  button: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: 20,
-
+  button:{
+    marginRight:40,
+    marginLeft:40,
+    marginTop:40,
+    paddingTop:20,
+    paddingBottom:20,
+    backgroundColor:'#2aa202',
+    borderRadius:10,
+    borderWidth: 1,
+    borderColor: '#fff'
+  },
+  buttonText:{
+    color:'#fff',
+    fontSize: 15,
+    textAlign:'center',
   }
 });
