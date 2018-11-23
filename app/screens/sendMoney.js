@@ -6,7 +6,6 @@ export default class SendMoney extends Component {
 
 constructor(props) {
     super(props);
-
     this.inputRefs = {};
 
     this.state = {
@@ -16,6 +15,7 @@ constructor(props) {
       chequingBalance: null,
       savingBalance: null,
       accountType: undefined,
+      transferAmount: null,
       items: [
           {
               label: 'Chequing - 64136167171',
@@ -27,6 +27,29 @@ constructor(props) {
           }
       ]
     };
+}
+
+async updateAccountBalance() {
+  let balance, newAmount;
+  const amount = this.state.transferAmount;
+  if (this.state.isChequing){
+      balance = this.state.chequingBalance;
+      newAmount = parseFloat(balance) - parseFloat(amount);
+      await AsyncStorage.setItem( 'chequingBalance', String(newAmount));
+  } else if (this.state.isSavings) {
+      balance = this.state.savingBalance;
+      newAmount = parseFloat(balance) - parseFloat(amount);
+      await AsyncStorage.setItem('savingBalance', String(newAmount) );
+  }
+}
+
+successAlert() {
+  Alert.alert('Success!', 'Money Sent', [{ text: 'Okay', onPress: null }]);
+}
+
+handleCLick(){
+  this.updateAccountBalance();
+  this.successAlert();
 }
 
 async componentWillMount() {
@@ -114,14 +137,13 @@ render() {
               <View style={{ paddingVertical: 5 }} />
               <Text>Amount: </Text>
               <TextInput
-                  ref={(el) => {
-                      this.inputRefs.name = el;
-                  }}
+                  ref= {(el) => { this.amount = el; }}
                   returnKeyType="next"
                   enablesReturnKeyAutomatically
                   onSubmitEditing={() => {
                       this.inputRefs.picker.togglePicker();
                   }}
+                  onChangeText={(amount)=> this.setState({amount})}
                   style={pickerSelectStyles.inputIOS}
                   blurOnSubmit={false}
               />
@@ -163,7 +185,7 @@ render() {
                 <View style={{ paddingVertical: 10, marginRight: 32, marginLeft: 32 }}>
                   <TouchableHighlight
                     style={styles.button}
-                    onPress={() => Alert.alert('Success!', 'Money Sent', [{ text: 'Okay', onPress: null }])}
+                    onPress={() => this.handleCLick()}
                     underlayColor='#fff'>
                       <Text style={styles.buttonText}>Send Money</Text>
                   </TouchableHighlight>

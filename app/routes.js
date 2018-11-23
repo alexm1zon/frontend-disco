@@ -112,7 +112,7 @@ const TransferStackNav = createStackNavigator(
     Transfer: {
       screen: Transfer,
       navigationOptions: ({ navigation }) => ({
-        title: "Transfer",
+        title: "Pay Bill",
         headerLeft: (
           <Ionicons
             style={styles.icon}
