@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+ import React, { Component } from 'react';
 import { Alert, AsyncStorage, Text, TextInput, TouchableHighlight, StyleSheet, View, ScrollView } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 
@@ -47,7 +47,7 @@ successAlert() {
   Alert.alert('Success!', 'Money Sent', [{ text: 'Okay', onPress: null }]);
 }
 
-handleCLick(){
+handleSubmit(){
   this.updateAccountBalance();
   this.successAlert();
 }
@@ -79,6 +79,7 @@ render() {
     }
   }
     return (
+        <ScrollView>
           <View style={styles.container}>
             <View style={{height: 50, backgroundColor: '#2aa202'}}>
               <Text style={styles.title}>
@@ -156,43 +157,43 @@ render() {
               </Text>
             </View>
 
-            <ScrollView>
-              <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
-                <Text>Email: </Text>
-                <TextInput style={pickerSelectStyles.inputIOS} />
+
+            <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
+              <Text>Email: </Text>
+              <TextInput style={pickerSelectStyles.inputIOS} />
+            </View>
+            <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
+              <Text>Security Question: </Text>
+              <TextInput style={pickerSelectStyles.inputIOS} />
+            </View>
+            <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
+              <Text>Answer: </Text>
+              <TextInput style={pickerSelectStyles.inputIOS} />
+            </View>
+            <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
+              <Text>Confirm Answer: </Text>
+              <TextInput style={pickerSelectStyles.inputIOS} />
+            </View>
+            <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
+              <Text> Message: </Text>
+              <TextInput
+                multiline = {true}
+                numberOfLines = {4}
+                style={pickerSelectStyles.inputIOS}
+              />
+            </View>
+            <View style={styles.container}>
+              <View style={{ paddingVertical: 10, marginRight: 32, marginLeft: 32 }}>
+                <TouchableHighlight
+                  style={styles.button}
+                  onPress={() => this.handleSubmit()}
+                  underlayColor='#fff'>
+                    <Text style={styles.buttonText}>Send Money</Text>
+                </TouchableHighlight>
               </View>
-              <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
-                <Text>Security Question: </Text>
-                <TextInput style={pickerSelectStyles.inputIOS} />
-              </View>
-              <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
-                <Text>Answer: </Text>
-                <TextInput style={pickerSelectStyles.inputIOS} />
-              </View>
-              <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
-                <Text>Confirm Answer: </Text>
-                <TextInput style={pickerSelectStyles.inputIOS} />
-              </View>
-              <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
-                <Text> Message: </Text>
-                <TextInput
-                  multiline = {true}
-                  numberOfLines = {4}
-                  style={pickerSelectStyles.inputIOS}
-                />
-              </View>
-              <View style={styles.container}>
-                <View style={{ paddingVertical: 10, marginRight: 32, marginLeft: 32 }}>
-                  <TouchableHighlight
-                    style={styles.button}
-                    onPress={() => this.handleCLick()}
-                    underlayColor='#fff'>
-                      <Text style={styles.buttonText}>Send Money</Text>
-                  </TouchableHighlight>
-                </View>
-              </View>
-            </ScrollView>
+            </View>
         </View>
+      </ScrollView>
     );
 }
 }
