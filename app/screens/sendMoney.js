@@ -43,13 +43,21 @@ async updateAccountBalance() {
   }
 }
 
+errorAlert() {
+  Alert.alert('Error', 'Please try again', [{ text: 'Okay', onPress: null }]);
+}
+
 successAlert() {
   Alert.alert('Success!', 'Money Sent', [{ text: 'Okay', onPress: null }]);
 }
 
 handleSubmit(){
-  this.updateAccountBalance();
-  this.successAlert();
+  try {
+    this.updateAccountBalance();
+    this.successAlert();
+  } catch (error){
+    this.errorAlert();
+  }
 }
 
 async componentWillMount() {
