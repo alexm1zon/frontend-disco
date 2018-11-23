@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
@@ -49,7 +49,7 @@ export default class Deposit extends Component {
                 }}>
                 <Text
                   style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
-                  {' '}Flip{' '}
+                  {'   '}Flip{' '}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -59,27 +59,3 @@ export default class Deposit extends Component {
     }
   }
 }
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//         <Text style={styles.title}>
-//           Deposit
-//         </Text>
-//       </View>
-//     );
-//   }
-// }
-//
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     backgroundColor: '#F5FCFF',
-//   },
-//   title: {
-//     fontSize: 20,
-//     textAlign: 'center',
-//     margin: 10,
-//   }
-// });

@@ -34,11 +34,11 @@ async updateAccountBalance() {
   const amount = this.state.transferAmount;
   if (this.state.isChequing){
       balance = this.state.chequingBalance;
-      newAmount = parseFloat(balance) - parseFloat(amount);
+      newAmount = Number(balance) - amount;
       await AsyncStorage.setItem( 'chequingBalance', String(newAmount));
   } else if (this.state.isSavings) {
       balance = this.state.savingBalance;
-      newAmount = parseFloat(balance) - parseFloat(amount);
+      newAmount = Number(balance) - amount;
       await AsyncStorage.setItem('savingBalance', String(newAmount) );
   }
 }
@@ -87,10 +87,10 @@ render() {
               </Text>
             </View>
             <View style={{backgroundColor: 'white'}}>
-           </View>
+         </View>
 
-            <View style={{ paddingVertical: 5 }} />
-            <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
+         <View style={{ paddingVertical: 5 }} />
+         <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
             <Text>Account:</Text>
               <RNPickerSelect
                   placeholder={{
@@ -131,7 +131,7 @@ render() {
                       this.inputRefs.picker = el;
                   }}
               />
-            </View>
+          </View>
 
             <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
               {balance}
