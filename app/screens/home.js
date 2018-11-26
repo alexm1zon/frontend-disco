@@ -28,7 +28,7 @@ export default class Home extends Component {
         </TouchableHighlight>
         <TouchableHighlight
           style={styles.button}
-          onPress={() => this.props.navigation.navigate("Transfer")}
+          onPress={() => this.props.navigation.navigate("PayBill")}
           underlayColor='#fff'>
             <Text style={styles.buttonText}>Pay Bill</Text>
         </TouchableHighlight>

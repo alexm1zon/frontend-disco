@@ -81,9 +81,9 @@ render() {
   let balance;
   if(isAccountSelected) {
     if(isChequing) {
-      balance = <Text>Balance: {this.state.chequingBalance} $</Text>
+      balance = <Text style={{marginTop:10, marginLeft:10}}>Balance: {this.state.chequingBalance} $</Text>
     } else {
-      balance = <Text>Balance: {this.state.savingBalance} $</Text>
+      balance = <Text style={{marginTop:10, marginLeft:10}}>Balance: {this.state.savingBalance} $</Text>
     }
   }
     return (
@@ -99,7 +99,7 @@ render() {
 
          <View style={{ paddingVertical: 5 }} />
          <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
-            <Text>Account:</Text>
+            <Text style={{marginTop:10, marginLeft:10}}>Account:</Text>
               <RNPickerSelect
                   placeholder={{
                       label: 'Select an account...',
@@ -144,7 +144,7 @@ render() {
             <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
               {balance}
               <View style={{ paddingVertical: 5 }} />
-              <Text>Amount: </Text>
+              <Text style={{marginTop:10, marginLeft:10}}>Amount: </Text>
               <TextInput
                   ref= {(el) => { this.amount = el; }}
                   returnKeyType="next"
@@ -167,23 +167,23 @@ render() {
 
 
             <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
-              <Text>Email: </Text>
+              <Text style={{marginTop:10, marginLeft:10}} >Email: </Text>
               <TextInput style={pickerSelectStyles.inputIOS} />
             </View>
             <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
-              <Text>Security Question: </Text>
+              <Text style={{marginTop:10, marginLeft:10}}>Security Question: </Text>
               <TextInput style={pickerSelectStyles.inputIOS} />
             </View>
             <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
-              <Text>Answer: </Text>
+              <Text style={{marginTop:10, marginLeft:10}}>Answer: </Text>
               <TextInput style={pickerSelectStyles.inputIOS} />
             </View>
             <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
-              <Text>Confirm Answer: </Text>
+              <Text style={{marginTop:10, marginLeft:10}}>Confirm Answer: </Text>
               <TextInput style={pickerSelectStyles.inputIOS} />
             </View>
             <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
-              <Text> Message: </Text>
+              <Text style={{marginTop:10, marginLeft:10}}> Message: </Text>
               <TextInput
                 multiline = {true}
                 numberOfLines = {4}

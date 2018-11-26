@@ -6,13 +6,13 @@ export default class App extends React.Component {
     const chequingHistoryArray = [
       {
         date: '19/11/2018',
-        transaction: 'Withdrawal',
+        transaction: ' Withdrawal',
         debit: true,
         amount: '40$'
       },
       {
         date: '19/11/2018',
-        transaction: 'Iron ring',
+        transaction: '  Iron ring',
         debit: true,
         amount: '20$'
       },
@@ -36,7 +36,7 @@ export default class App extends React.Component {
       },
       {
         date: '19/09/2018',
-        transaction: 'Second Cup',
+        transaction: ' Second Cup',
         debit: true,
         amount: '2.44$'
       }

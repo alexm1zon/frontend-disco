@@ -109,7 +109,7 @@ const SendMoneyStackNav = createStackNavigator(
 
 const TransferStackNav = createStackNavigator(
   {
-    Transfer: {
+    PayBill: {
       screen: Transfer,
       navigationOptions: ({ navigation }) => ({
         title: "Pay Bill",
@@ -126,7 +126,7 @@ const TransferStackNav = createStackNavigator(
     }
   },
   {
-    initialRouteName: "Transfer"
+    initialRouteName: "PayBill"
   }
 );
 
@@ -135,7 +135,7 @@ const DepositStackNav = createStackNavigator(
     Deposit: {
       screen: Deposit,
       navigationOptions: ({ navigation }) => ({
-        title: "Deposit",
+        title: "Deposit Cheque",
         headerLeft: (
           <Ionicons
             style={styles.icon}
@@ -161,13 +161,13 @@ const DrawerLayout = createDrawerNavigator(
     "Accounts": {
       screen: AccountsStackNav
     },
-    "Transfers": {
+    "Pay Bill": {
       screen: TransferStackNav
     },
     "Send Money": {
       screen: SendMoneyStackNav
     },
-    "Deposit": {
+    "Deposit Cheque": {
       screen: DepositStackNav
     }
     // Logout: {
