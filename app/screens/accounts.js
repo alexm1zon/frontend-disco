@@ -20,43 +20,6 @@ export default class Accounts extends Component {
        savingBalance: null,
        collapsed: true,
        chequingHistory: [],
-       //   {
-       //     date: '19/11/2018',
-       //     transaction: 'Withdrawal',
-       //     debit: true,
-       //     amount: '40$'
-       //   },
-       //   {
-       //     date: '19/11/2018',
-       //     transaction: 'Iron ring',
-       //     debit: true,
-       //     amount: '20$'
-       //   },
-       //   {
-       //     date: '02/10/2018',
-       //     transaction: 'Three Brewers',
-       //     debit: true,
-       //     amount: '41.12$'
-       //   },
-       //   {
-       //     date: '30/09/2018',
-       //     transaction: 'Coorporate Pay',
-       //     debit: false,
-       //     amount: '1000.44$'
-       //   },
-       //   {
-       //     date: '22/09/2018',
-       //     transaction: 'Site Tim Horton',
-       //     debit: true,
-       //     amount: '5.31$'
-       //   },
-       //   {
-       //     date: '19/09/2018',
-       //     transaction: 'Second Cup',
-       //     debit: true,
-       //     amount: '2.44$'
-       //   }
-       // ],
     }
   }
 
@@ -87,7 +50,7 @@ export default class Accounts extends Component {
   }
   render() {
     return (
-      <ScrollView>
+      <ScrollView style={{backgroundColor:'white'}}>
       <View style={styles.container}>
         <View style={{height: 50, backgroundColor: '#2aa202'}}>
           <Text style={styles.title}>
@@ -115,19 +78,32 @@ export default class Accounts extends Component {
           <Text style={styles.subtitle}>
             Balance: {this.state.savingBalance}$
           </Text>
-          <TouchableHighlight onPress={this.toggleExpanded}>
+          <TouchableHighlight style={{borderColor:'black'}} onPress={this.toggleExpanded}>
             <View style={styles.header}>
-              <Text style={styles.headerText}>View History</Text>
+              <Text style={styles.headerText}>View Transactions</Text>
             </View>
           </TouchableHighlight>
           <Collapsible collapsed={this.state.collapsed} align="center">
-          <View style={styles.container}>
-            <View style={{alignItems: 'center', backgroundColor: 'white'}}>
+          <View style={styles.container2}>
+            <View style={{marginLeft:50, width: 100, backgroundColor: 'white'}}>
               <Text>
-                   { (this.state.chequingHistory).map((item, key)=>(<Text key={key}> { item.date } { item.transaction } { item.amount } {'\n'}</Text>))}
+                   { (this.state.chequingHistory).map((item, key)=>(<Text key={key}> { item.date } {'\n'}</Text>))}
               </Text>
             </View>
+            <View style={{width:150, alignItems: 'center', backgroundColor: 'white'}}>
+              <Text>
+                   { (this.state.chequingHistory).map((item, key)=>(
+                     <Text key={key}>
+                     { item.transaction } {'\n'}
+                     </Text>))}
+              </Text>
             </View>
+            <View style={{width: 100, backgroundColor: 'white'}}>
+              <Text>
+                   { (this.state.chequingHistory).map((item, key)=>(<Text key={key}> { item.amount } {'\n'}</Text>))}
+              </Text>
+            </View>
+          </View>
           </Collapsible>
         </View>
       </View>
@@ -143,6 +119,12 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     backgroundColor: 'white'
   },
+  container2: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    backgroundColor: 'white'
+  },
   title: {
     fontSize: 20,
     textAlign: 'center',
@@ -150,7 +132,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   subtitle: {
-    fontSize: 20,
+    fontSize: 18,
     textAlign: 'left',
     margin: 10,
     color: 'black',
@@ -158,6 +140,7 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: '#F5FCFF',
     padding: 10,
+    borderWidth: 0.3
   },
   headerText: {
     textAlign: 'center',

@@ -42,13 +42,33 @@ export default class App extends React.Component {
       }
     ];
 
+    const recipientArray = [
+      {
+          label: 'Jason Smith',
+          value: '1',
+      },
+      {
+          label: 'Amanda Johnson',
+          value: '2',
+      },
+      {
+          label: 'Olivia Miller',
+          value: '3',
+      },
+      {
+          label: 'My CIBC account',
+          value: '4',
+      },
+      {
+          label: 'Add Recipient',
+          value: '9999',
+      }
+    ];
+
     try {
+      await AsyncStorage.setItem('recipientArray', JSON.stringify(recipientArray));
       await AsyncStorage.setItem('chequingHistory',JSON.stringify(chequingHistoryArray));
-      console.log('Successfully initialized chequingHistory');
-
       await AsyncStorage.setItem('visaBalance', '3583.13');
-
-      console.log('Successfully initialized visa data');
       await AsyncStorage.setItem('savingBalance', '9862.79');
       await AsyncStorage.setItem('chequingBalance', '1583.13');
       await AsyncStorage.setItem('masterCardBalance', '341.87');

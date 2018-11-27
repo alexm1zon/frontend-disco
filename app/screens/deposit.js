@@ -48,7 +48,7 @@ export default class Deposit extends Component {
   render() {
     if (this.state.displayCamera && this.state.hasCameraPermission)  {
         return (
-          <View style={{ flex: 0.75 }}>
+          <View style={{ flex: 1 }}>
             <Camera style={{ flex: 1 }} type={this.state.type}>
               <View
                 style={{
@@ -58,15 +58,17 @@ export default class Deposit extends Component {
                 }}>
               </View>
             </Camera>
-            <View style={{ paddingVertical: 10, marginRight: 32, marginLeft: 32 }}>
-              <TouchableHighlight
-                style={styles.button}
-                onPress={this.takePicture.bind(this)}
-                underlayColor='#fff'>
-                  <Text style={styles.buttonText}>Capture</Text>
-              </TouchableHighlight>
+            <View style={styles.container}>
+              <View style={{ paddingVertical: 10, marginRight: 32, marginLeft: 32 }}>
+                <TouchableHighlight
+                  style={styles.button}
+                  onPress={this.takePicture.bind(this)}
+                  underlayColor='#fff'>
+                    <Text style={styles.buttonText}>Capture</Text>
+                </TouchableHighlight>
+              </View>
             </View>
-            </View>
+          </View>
         );
     } else {
       let pictureMock;
@@ -74,48 +76,55 @@ export default class Deposit extends Component {
         pictureMock = <Text style={{marginLeft:10, marginBottom:10}}> Attached: 8813631.jpeg </Text>
       }
       return (
-        <View style={{ flex: 1 }}>
-        <Text style={{marginTop:10, marginLeft:10}}>Deposit into account:</Text>
-          <RNPickerSelect
-              placeholder={{
-                  label: 'Select Account',
-                  value: null,
-              }}
-              items={this.state.accountItems}
-              onValueChange={(value)=> console.log('Value is:', value)}
-              onUpArrow={() => {
-                  this.inputRefs.name.focus();
-              }}
-              onDownArrow={() => {
-                  this.inputRefs.picker2.togglePicker();
-              }}
-              style={{ ...pickerSelectStyles }}
-              value={this.state.accountType}
-              ref={(el) => {
-                  this.inputRefs.picker = el;
-              }}
-          />
-          <View style={{ paddingVertical: 10, marginRight: 32, marginLeft: 32 }}>
-            <TouchableHighlight
-              style={styles.button}
-              onPress={() => {this.setState({displayCamera:true})}}
-              underlayColor='#fff'>
-                <Text style={styles.buttonText}>Take picture of cheque</Text>
-            </TouchableHighlight>
-        </View>
-        {pictureMock}
-        <Text style={{marginTop:10, marginLeft:10}}> Enter amount: </Text>
-        <TextInput
-            style={pickerSelectStyles.inputIOS}
-        />
-        <View style={{ paddingVertical: 10, marginRight: 32, marginLeft: 32 }}>
-          <TouchableHighlight
-            style={styles.button}
-            onPress={() => Alert.alert('Cheque deposited!', '',[{ text: 'Okay', onPress: null }])}
-            underlayColor='#fff'>
-              <Text style={styles.buttonText}>Deposit cheque</Text>
-          </TouchableHighlight>
-        </View>
+        <View style={{ flex: 1 , backgroundColor:'white'}}>
+          <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
+            <Text style={styles.subtitle}>Deposit into account:</Text>
+              <RNPickerSelect
+                  placeholder={{
+                      label: 'Select Account',
+                      value: null,
+                  }}
+                  items={this.state.accountItems}
+                  onValueChange={(value)=> console.log('Value is:', value)}
+                  onUpArrow={() => {
+                      this.inputRefs.name.focus();
+                  }}
+                  onDownArrow={() => {
+                      this.inputRefs.picker2.togglePicker();
+                  }}
+                  style={{ ...pickerSelectStyles }}
+                  value={this.state.accountType}
+                  ref={(el) => {
+                      this.inputRefs.picker = el;
+                  }}
+              />
+            </View>
+            <View style={styles.container}>
+              <View style={{ paddingVertical: 10}}>
+                <TouchableHighlight
+                  style={styles.button}
+                  onPress={() => {this.setState({displayCamera:true})}}
+                  underlayColor='#fff'>
+                    <Text style={styles.buttonText}>Take picture of cheque</Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+
+          {pictureMock}
+          <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
+            <Text style={styles.subtitle}>Enter amount: </Text>
+            <TextInput
+                style={pickerSelectStyles.inputIOS}
+            />
+              <View style={{ alignItems:'center',paddingVertical: 10 }}>
+                <TouchableHighlight
+                  style={styles.button}
+                  onPress={() => Alert.alert('Cheque deposited!', '',[{ text: 'Okay', onPress: null }])}
+                  underlayColor='#fff'>
+                    <Text style={styles.buttonText}>Deposit cheque</Text>
+                </TouchableHighlight>
+              </View>
+          </View>
         </View>
       );
     }
@@ -123,6 +132,15 @@ export default class Deposit extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 0.2,
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  subtitle: {
+    fontSize: 18,
+    marginBottom:5
+  },
   button:{
     marginRight:40,
     marginLeft:40,

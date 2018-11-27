@@ -118,7 +118,7 @@ render() {
           <View style={styles.container}>
             <View style={{ paddingVertical: 5 }} />
             <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
-            <Text>Payee:</Text>
+            <Text style={styles.subtitle}>Payee:</Text>
               <RNPickerSelect
                   placeholder={{
                       label: 'Select Payee',
@@ -163,7 +163,6 @@ render() {
                       this.inputRefs.picker2.togglePicker();
                   }}
                   style={{ ...pickerSelectStyles }}
-                  value={this.state.accountType}
                   ref={(el) => {
                       this.inputRefs.picker = el;
                   }}
@@ -172,7 +171,7 @@ render() {
             {payeeBalance}
             <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
               <View style={{ paddingVertical: 5 }} />
-              <Text>Amount: </Text>
+              <Text style={styles.subtitle}>Amount: </Text>
               <TextInput
                   ref={(el) => {
                       this.inputRefs.name = el;
@@ -189,7 +188,7 @@ render() {
             <View style={{ paddingVertical: 5 }} />
 
             <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
-            <Text>From Account:</Text>
+            <Text style={styles.subtitle}>From Account:</Text>
               <RNPickerSelect
                   placeholder={{
                       label: 'Select from account',
@@ -224,7 +223,6 @@ render() {
                       this.inputRefs.picker2.togglePicker();
                   }}
                   style={{ ...pickerSelectStyles }}
-                  value={this.state.accountType}
                   ref={(el) => {
                       this.inputRefs.picker = el;
                   }}
@@ -259,10 +257,8 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   subtitle: {
-    fontSize: 20,
-    textAlign: 'left',
-    margin: 10,
-    color: 'black',
+    fontSize: 18,
+    marginBottom:5
   },
   button:{
     marginRight:40,

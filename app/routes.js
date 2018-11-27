@@ -18,6 +18,8 @@ import Deposit from './screens/deposit';
 import Transfer from './screens/transfer';
 import SendMoney from './screens/sendMoney';
 import Login from './screens/login';
+import AddPayee from './screens/addPayee';
+import AddRecipient from './screens/addRecipient';
 
 const LoginStackNav = createStackNavigator(
   {
@@ -100,6 +102,12 @@ const SendMoneyStackNav = createStackNavigator(
           />
         )
       })
+    },
+    AddRecipient: {
+      screen: AddRecipient,
+      navigationOptions: ({ navigation }) => ({
+        title: "Add Recipient",
+      })
     }
   },
   {
@@ -122,6 +130,12 @@ const TransferStackNav = createStackNavigator(
             onPress={() => navigation.openDrawer()}
           />
         )
+      })
+    },
+    AddPayee: {
+      screen: AddPayee,
+      navigationOptions: ({ navigation }) => ({
+        title: "Add Payee",
       })
     }
   },
