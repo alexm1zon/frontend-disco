@@ -238,7 +238,7 @@ render() {
             </View>
 
             <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
-              <Text style={styles.subtitle}> Message (optional): </Text>
+              <Text style={styles.subtitle}>Message (optional): </Text>
               <TextInput
                 multiline = {true}
                 numberOfLines = {4}
