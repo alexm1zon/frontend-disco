@@ -60,11 +60,13 @@ async updateAccountBalance() {
   if (this.state.isChequing){
       balance = this.state.chequingBalance;
       newAmount = Number(balance) - amount;
+      newAmount = Math.round(newAmount * 100) / 100
       await AsyncStorage.setItem( 'chequingBalance', String(newAmount));
       this.setState({chequingBalance: newAmount});
   } else if (this.state.isSavings) {
       balance = this.state.savingBalance;
       newAmount = Number(balance) - amount;
+      newAmount = Math.round(newAmount * 100) / 100
       await AsyncStorage.setItem('savingBalance', String(newAmount) );
       this.setState({savingBalance: newAmount});
   }
@@ -87,6 +89,9 @@ inputValidation() {
   }
   if (!this.state.isAmountSet){
     throw Error('Please enter an amount');
+  }
+  if (isNaN(this.state.transferAmount)){
+    throw Error('Please enter a valid amount');
   }
   if (this.state.isChequing) {
     if (this.state.transferAmount > this.state.chequingBalance) {

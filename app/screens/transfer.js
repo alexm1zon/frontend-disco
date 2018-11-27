@@ -10,19 +10,14 @@ constructor(props) {
     this.inputRefs = {};
 
     this.state = {
-      isAccountSelected: false,
       isChequing: false,
       isSavings: false,
-      isPayeeSelected: false,
-      isVisa: false,
-      isMasterCard: false,
-      isBayCard: false,
+      isPayeeSet: false,
+      isAmountSet: false,
+      isAccountSet: false,
       chequingBalance: null,
-      savingBalance: null,
-      visaBalance: null,
-      masterCardBalance: null,
-      bayBalance: null,
       accountType: undefined,
+      transferAmount: 0,
       accountItems: [
           {
               label: 'Chequing - 64136167171',
@@ -36,84 +31,121 @@ constructor(props) {
       payeeItems: [
           {
               label: 'Aeroplan Travel Visa',
-              value: 'visa',
+              value: '1',
           },
           {
               label: 'MasterCard Cashback',
-              value: 'mastercard',
+              value: '2',
           },
           {
               label: 'Bay Credit Card',
-              value: 'baycard',
+              value: '3',
           },
           {
               label: 'Add Payee',
-              value: 'newPayee',
+              value: '9999',
           }
       ]
     };
 }
 
+async initialize() {
+  const payeeArray = await AsyncStorage.getItem('payeeArray');
+  if (payeeArray) {
+    this.setState({
+      payeeItems: JSON.parse(payeeArray),
+    });
+  }
+}
+
+
 async componentWillMount() {
-  const visaBalance = await AsyncStorage.getItem('visaBalance');
+
   const chequingBalance = await AsyncStorage.getItem('chequingBalance');
   const savingBalance = await AsyncStorage.getItem('savingBalance');
-  const masterCardBalance = await AsyncStorage.getItem('masterCardBalance');
-  const bayBalance = await AsyncStorage.getItem('bayBalance');
 
   if (chequingBalance) {
     this.setState({
       chequingBalance: chequingBalance,
     });
-  } else if (savingBalance) {
+  }
+  if (savingBalance) {
     this.setState({
       savingBalance: savingBalance,
     });
-  } else if (visaBalance) {
-    this.setState({
-      visaBalance: visaBalance,
-    });
-  } else if (masterCardBalance) {
-    this.setState({
-      masterCardBalance: masterCardBalance,
-    });
-  } else if (bayBalance) {
-    this.setState({
-      bayBalance: bayBalance,
-    });
-  } else {}
+  }
+}
+
+errorAlert(error) {
+  Alert.alert(`${error}`, '', [{ text: 'Okay', onPress: null }]);
+}
+
+successAlert() {
+  Alert.alert('Success!', 'Bill paid', [{ text: 'Okay', onPress: null }]);
+}
+
+inputValidation() {
+  if (!this.state.isPayeeSet){
+    throw Error('Please select payee');
+  }
+  if (!this.state.isAmountSet){
+    throw Error('Please enter an amount');
+  }
+
+  if (isNaN(this.state.transferAmount)){
+    throw Error('Please enter a valid amount');
+  }
+  if (!this.state.isAccountSet){
+    throw Error('Please select account');
+  }
+
+  if (this.state.transferAmount > this.state.chequingBalance) {
+    throw Error('Not enough funds in the account');
+  }
+  if (this.state.transferAmount > this.state.savingBalance) {
+    throw Error('Not enough funds in the account');
+  }
+}
+
+async updateAccountBalance() {
+  let balance, newAmount;
+  const amount = this.state.transferAmount;
+  if (this.state.isChequing){
+      balance = this.state.chequingBalance;
+      newAmount = Number(balance) - amount;
+      newAmount = Math.round(newAmount * 100) / 100
+      await AsyncStorage.setItem( 'chequingBalance', String(newAmount));
+      this.setState({chequingBalance: newAmount});
+  } else if (this.state.isSavings) {
+      balance = this.state.savingBalance;
+      newAmount = Number(balance) - amount;
+      newAmount = Math.round(newAmount * 100) / 100
+      await AsyncStorage.setItem('savingBalance', String(newAmount) );
+      this.setState({savingBalance: newAmount});
+  }
+}
+
+async handleSubmit() {
+  try {
+    this.inputValidation();
+    this.updateAccountBalance();
+    this.successAlert();
+  } catch (error) {
+    this.errorAlert(error);
+  }
 }
 
 render() {
-  const isAccountSelected = this.state.isAccountSelected;
-  const isPayeeSelected = this.state.isPayeeSelected;
-  const isChequing = this.state.isChequing;
-  const isVisa = this.state.isVisa;
-  const isMasterCard = this.state.isMasterCard;
-
-  let balance, payeeBalance;
-
-  if(isPayeeSelected) {
-    if(isVisa) {
-      payeeBalance = <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 18 }}>
-                     <Text>Balance: {this.state.visaBalance} $</Text> </View>
-    } else if (isMasterCard){
-      payeeBalance = <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 18 }}>
-                     <Text>Balance: {this.state.masterCardBalance} $</Text> </View>
-    } else {
-      payeeBalance = <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 18 }}>
-                     <Text>Balance: {this.state.bayBalance} $</Text> </View>
-    }
+  this.initialize();
+  let balance;
+  if(this.state.isChequing) {
+    balance =  <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 18 }}>
+               <Text>Balance: {this.state.chequingBalance} $</Text> </View>
+  } else if (this.state.isSavings){
+    balance = <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 18 }}>
+              <Text>Balance: {this.state.savingBalance} $</Text> </View>
   }
-  if(isAccountSelected) {
-    if(isChequing) {
-      balance =  <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 18 }}>
-                 <Text>Balance: {this.state.chequingBalance} $</Text> </View>
-    } else {
-      balance = <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 18 }}>
-                <Text>Balance: {this.state.savingBalance} $</Text> </View>
-    }
-  }
+
     return (
           <View style={styles.container}>
             <View style={{ paddingVertical: 5 }} />
@@ -126,35 +158,13 @@ render() {
                   }}
                   items={this.state.payeeItems}
                   onValueChange={(value) => {
-                      if (value === 'visa') {
-                        this.setState({
-                            isPayeeSelected: true,
-                            isVisa: true,
-                            isMasterCard: false,
-                            isBayCard: false
-                        });
-                      } else if (value === 'mastercard'){
-                        this.setState({
-                          isPayeeSelected: true,
-                          isVisa: false,
-                          isMasterCard: true,
-                          isBayCard: false
-                        });
-                      } else if (value === 'baycard'){
-                        this.setState({
-                          isPayeeSelected: true,
-                          isVisa: false,
-                          isMasterCard: false,
-                          isBayCard: true
-                        });
-                      } else {
-                        this.setState({
-                          isAccountSelected: false,
-                          isChequing: false,
-                          isSavings: false,
-                          isBayCard: false
-                        });
-                      }
+                    if (value === '9999') {
+                      this.props.navigation.navigate("AddPayee");
+                    } else {
+                      this.setState({
+                        isPayeeSet: true
+                      });
+                    }
                   }}
                   onUpArrow={() => {
                       this.inputRefs.name.focus();
@@ -168,21 +178,13 @@ render() {
                   }}
               />
             </View>
-            {payeeBalance}
             <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
               <View style={{ paddingVertical: 5 }} />
               <Text style={styles.subtitle}>Amount: </Text>
               <TextInput
-                  ref={(el) => {
-                      this.inputRefs.name = el;
-                  }}
-                  returnKeyType="next"
-                  enablesReturnKeyAutomatically
-                  onSubmitEditing={() => {
-                      this.inputRefs.picker.togglePicker();
-                  }}
-                  style={pickerSelectStyles.inputIOS}
-                  blurOnSubmit={false}
+                style={pickerSelectStyles.inputIOS}
+                onChangeText={(amount)=> this.setState({isAmountSet: true, transferAmount: amount})}
+              />
               />
             </View>
             <View style={{ paddingVertical: 5 }} />
@@ -198,19 +200,19 @@ render() {
                   onValueChange={(value) => {
                       if (value === 'chequing') {
                         this.setState({
-                            isAccountSelected: true,
+                            isAccountSet: true,
                             isChequing: true,
                             isSavings: false
                         });
                       } else if (value === 'savings'){
                         this.setState({
-                          isAccountSelected: true,
+                          isAccountSet: true,
                           isChequing: false,
                           isSavings: true
                         });
                       } else {
                         this.setState({
-                          isAccountSelected: false,
+                          isAccountSet: false,
                           isChequing: false,
                           isSavings: false
                         });
@@ -233,7 +235,7 @@ render() {
                 <View style={{ paddingVertical: 10, marginRight: 32, marginLeft: 32 }}>
                   <TouchableHighlight
                     style={styles.button}
-                    onPress={() => Alert.alert('Success!', 'Transfer completed', [{ text: 'Okay', onPress: null }])}
+                    onPress={() => this.handleSubmit()}
                     underlayColor='#fff'>
                       <Text style={styles.buttonText}>Pay Bill</Text>
                   </TouchableHighlight>

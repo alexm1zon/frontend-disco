@@ -65,7 +65,27 @@ export default class App extends React.Component {
       }
     ];
 
+    const payeeArray = [
+        {
+            label: 'Aeroplan Travel Visa',
+            value: '1',
+        },
+        {
+            label: 'MasterCard Cashback',
+            value: '2',
+        },
+        {
+            label: 'Bay Credit Card',
+            value: '3',
+        },
+        {
+            label: 'Add Payee',
+            value: '9999',
+        }
+    ];
+
     try {
+      await AsyncStorage.setItem('payeeArray', JSON.stringify(payeeArray));
       await AsyncStorage.setItem('recipientArray', JSON.stringify(recipientArray));
       await AsyncStorage.setItem('chequingHistory',JSON.stringify(chequingHistoryArray));
       await AsyncStorage.setItem('visaBalance', '3583.13');

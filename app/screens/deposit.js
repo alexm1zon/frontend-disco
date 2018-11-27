@@ -1,6 +1,7 @@
  import React, { Component } from 'react';
 import {
   Alert,
+  AsyncStorage,
   StyleSheet,
   Text,
   View,
@@ -17,18 +18,23 @@ export default class Deposit extends Component {
     super(props);
     this.inputRefs = {};
     this.state = {
+      isAccountSet: false,
+      isAmountSet: false,
+      isChequing: false,
+      isSavings: false,
       displayCamera: false,
-      hasPicture: false,
+      isPictureSet: false,
+      depositAmount: 0,
       hasCameraPermission: null,
       type: Camera.Constants.Type.back,
       accountItems: [
           {
               label: 'Chequing - 64136167171',
-              value: 'chequing',
+              value: '1',
           },
           {
               label: 'Savings - 95181167171',
-              value: 'savings',
+              value: '2',
           }
       ],
     };
@@ -41,9 +47,57 @@ export default class Deposit extends Component {
 
   takePicture () {
     Vibration.vibrate();
-    Alert.alert('Captured!', '', [{ text: 'Okay', onPress: () => {this.setState({ displayCamera:false, hasPicture:true })} }]);
+    Alert.alert('Captured!', '', [{ text: 'Okay', onPress: () => {this.setState({ displayCamera:false, isPictureSet:true })} }]);
   }
 
+  errorAlert(error) {
+    Alert.alert(`${error}`, '', [{ text: 'Okay', onPress: null }]);
+  }
+
+  successAlert() {
+    Alert.alert('Success!', 'Cheque Deposited', [{ text: 'Okay', onPress: null }]);
+  }
+
+  inputValidation() {
+    if (!this.state.isAccountSet){
+      throw Error('Please select account');
+    }
+    if (!this.state.isPictureSet){
+      throw Error('Please take a picture of your cheque');
+    }
+    if (!this.state.isAmountSet){
+      throw Error('Please enter an amount');
+    }
+    if (isNaN(this.state.depositAmount)){
+      throw Error('Please enter a valid amount');
+    }
+  }
+
+  async updateAccountBalance() {
+    let balance, newAmount;
+    const amount = this.state.depositAmount;
+    if (this.state.isChequing){
+        balance = await AsyncStorage.getItem('chequingBalance');
+        newAmount = Number(balance) + Number(amount);
+        newAmount = Math.round(newAmount * 100) / 100
+        await AsyncStorage.setItem( 'chequingBalance', String(newAmount));
+    } else if (this.state.isSavings) {
+        balance = await AsyncStorage.getItem('savingBalance');
+        newAmount = Number(balance) + Number(amount);
+        newAmount = Math.round(newAmount * 100) / 100
+        await AsyncStorage.setItem('savingBalance', String(newAmount) );
+    }
+  }
+
+  async handleDeposit() {
+    try {
+      this.inputValidation();
+      this.updateAccountBalance();
+      this.successAlert();
+    } catch (error) {
+      this.errorAlert(error);
+    }
+  }
 
   render() {
     if (this.state.displayCamera && this.state.hasCameraPermission)  {
@@ -62,7 +116,7 @@ export default class Deposit extends Component {
               <View style={{ paddingVertical: 10, marginRight: 32, marginLeft: 32 }}>
                 <TouchableHighlight
                   style={styles.button}
-                  onPress={this.takePicture.bind(this)}
+                  onPress={() => this.takePicture()}
                   underlayColor='#fff'>
                     <Text style={styles.buttonText}>Capture</Text>
                 </TouchableHighlight>
@@ -72,7 +126,7 @@ export default class Deposit extends Component {
         );
     } else {
       let pictureMock;
-      if (this.state.hasPicture) {
+      if (this.state.isPictureSet) {
         pictureMock = <Text style={{marginLeft:10, marginBottom:10}}> Attached: 8813631.jpeg </Text>
       }
       return (
@@ -85,7 +139,27 @@ export default class Deposit extends Component {
                       value: null,
                   }}
                   items={this.state.accountItems}
-                  onValueChange={(value)=> console.log('Value is:', value)}
+                  onValueChange={(value) => {
+                      if (value === '1') {
+                        this.setState({
+                            isChequing: true,
+                            isSavings: false,
+                            isAccountSet: true
+                        });
+                      } else if (value === '2'){
+                        this.setState({
+                          isChequing: false,
+                          isSavings: true,
+                          isAccountSet: true
+                        });
+                      } else {
+                        this.setState({
+                          isChequing: false,
+                          isSavings: false,
+                          isAccountSet: false
+                        });
+                      }
+                  }}
                   onUpArrow={() => {
                       this.inputRefs.name.focus();
                   }}
@@ -103,7 +177,7 @@ export default class Deposit extends Component {
               <View style={{ paddingVertical: 10}}>
                 <TouchableHighlight
                   style={styles.button}
-                  onPress={() => {this.setState({displayCamera:true})}}
+                  onPress={() => {this.setState({isAccountSet: false, displayCamera:true})}}
                   underlayColor='#fff'>
                     <Text style={styles.buttonText}>Take picture of cheque</Text>
                 </TouchableHighlight>
@@ -115,11 +189,12 @@ export default class Deposit extends Component {
             <Text style={styles.subtitle}>Enter amount: </Text>
             <TextInput
                 style={pickerSelectStyles.inputIOS}
+                onChangeText={(amount)=> this.setState({depositAmount: amount, isAmountSet: true})}
             />
               <View style={{ alignItems:'center',paddingVertical: 10 }}>
                 <TouchableHighlight
                   style={styles.button}
-                  onPress={() => Alert.alert('Cheque deposited!', '',[{ text: 'Okay', onPress: null }])}
+                  onPress={() => this.handleDeposit()}
                   underlayColor='#fff'>
                     <Text style={styles.buttonText}>Deposit cheque</Text>
                 </TouchableHighlight>
