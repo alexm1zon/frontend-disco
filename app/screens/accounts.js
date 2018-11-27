@@ -98,7 +98,7 @@ export default class Accounts extends Component {
                 </View>
                 <View style={{flex: 1, alignItems:'center'}}>
                   <Text>
-                       { (this.state.chequingTransactionArray).map((item, key)=>(<Text key={key}> { item.amount } $ {'\n'}</Text>))}
+                       { (this.state.chequingTransactionArray).map((item, key)=>(<Text key={key}> { item.debit?'+ ':'- '} { item.amount } $ {'\n'}</Text>))}
                   </Text>
                 </View>
               </View>
@@ -139,7 +139,7 @@ export default class Accounts extends Component {
                 </View>
                 <View style={{flex: 1, alignItems:'center'}}>
                   <Text>
-                       { (this.state.savingsTransactionArray).map((item, key)=>(<Text key={key}> { item.amount } $ {'\n'}</Text>))}
+                  { (this.state.savingsTransactionArray).map((item, key)=>(<Text key={key}> { item.debit?'+ ':'- '} { item.amount } $ {'\n'}</Text>))}
                   </Text>
                 </View>
               </View>

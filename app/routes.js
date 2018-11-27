@@ -183,10 +183,10 @@ const DrawerLayout = createDrawerNavigator(
     },
     "Deposit Cheque": {
       screen: DepositStackNav
+    },
+    "Logout": {
+      screen: LoginStackNav
     }
-    // Logout: {
-    //   screen: LoginStackNav
-    // }
   },
   {
     // contentComponent: DrawerContainer,

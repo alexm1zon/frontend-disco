@@ -104,10 +104,41 @@ inputValidation() {
   }
 }
 
+async recordTransaction() {
+    let transactionArray;
+
+    if(this.state.isChequing){
+      transactionArray = await AsyncStorage.getItem('chequingTransaction');
+    } else {
+      transactionArray = await AsyncStorage.getItem('savingsTransaction');
+    }
+
+    if (!transactionArray) {
+      throw Error('Cannot record transation');
+    }
+
+    transactionArray = JSON.parse(transactionArray);
+
+    transactionArray.unshift({
+      date: '30/11/2018',
+      transaction: 'E-transfer',
+      debit: false,
+      amount: this.state.transferAmount
+    });
+
+    console.log('Transaction Array is ', transactionArray);
+    if(this.state.isChequing){
+      await AsyncStorage.setItem('chequingTransaction', JSON.stringify(transactionArray));
+    } else {
+      await AsyncStorage.setItem('savingsTransaction', JSON.stringify(transactionArray));
+    }
+}
+
 async handleSubmit() {
   try {
     this.inputValidation();
     this.updateAccountBalance();
+    this.recordTransaction();
     this.successAlert();
   } catch (error) {
     this.errorAlert(error);
