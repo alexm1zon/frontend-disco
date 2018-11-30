@@ -108,7 +108,7 @@ export default class Deposit extends Component {
         date: '30/11/2018',
         transaction: 'Deposit',
         debit: true,
-        amount: `+ ${this.state.depositAmount}`
+        amount: `${this.state.depositAmount}`
       });
 
       console.log('Transaction Array is ', transactionArray);
@@ -159,7 +159,7 @@ export default class Deposit extends Component {
     } else {
       let pictureMock;
       if (this.state.isPictureSet) {
-        pictureMock = <Text style={{marginLeft:10, marginBottom:10}}> Attached: 8813631.jpeg </Text>
+        pictureMock = <Text style={{marginTop:15, marginLeft:10, marginBottom:10}}> Attached: 8813631.jpeg </Text>
       }
       return (
         <View style={{ flex: 1 , backgroundColor:'white'}}>
@@ -208,7 +208,7 @@ export default class Deposit extends Component {
             <View style={styles.container}>
               <View style={{ paddingVertical: 10}}>
                 <TouchableHighlight
-                  style={styles.button}
+                  style={styles.button1}
                   onPress={() => {this.setState({isAccountSet: false, displayCamera:true})}}
                   underlayColor='#fff'>
                     <Text style={styles.buttonText}>Take picture of cheque</Text>
@@ -259,6 +259,19 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#fff',
     width: 200
+  },
+  button1:{
+    marginRight:40,
+    marginLeft:40,
+    marginTop:10,
+    paddingTop:20,
+    paddingBottom:20,
+    backgroundColor:'#2aa202',
+    borderRadius:10,
+    borderWidth: 1,
+    borderColor: '#fff',
+    width: 200,
+    height:60
   },
   buttonText:{
     color:'#fff',

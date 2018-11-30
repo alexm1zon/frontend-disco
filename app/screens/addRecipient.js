@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   Alert,
   AsyncStorage,
+  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -93,43 +94,45 @@ export default class AddRecipient extends Component {
   }
   render() {
     return (
-      <View style={styles.container}>
-        <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
-          <Text style={styles.subtitle}>First Name: </Text>
-          <TextInput style={pickerSelectStyles.inputIOS} onChangeText={(text) => this.setState({firstName: text, isFirstNameSet: true})}/>
-        </View>
-        <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
-          <Text style={styles.subtitle}>Last Name: </Text>
-          <TextInput style={pickerSelectStyles.inputIOS} onChangeText={(text) => this.setState({lastName: text, isLastNameSet: true })}/>
-        </View>
-        <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
-          <Text style={styles.subtitle}>Email: </Text>
-          <TextInput style={pickerSelectStyles.inputIOS} onChangeText={(text) => this.setState({isEmailSet: true, isEmailSet: true})}/>
-        </View>
-        <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
-          <Text style={styles.subtitle}>Security Question: </Text>
-          <TextInput style={pickerSelectStyles.inputIOS} onChangeText={(text) => this.setState({isSecuritySet: true})} />
-        </View>
-        <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
-          <Text style={styles.subtitle}>Answer: </Text>
-          <TextInput style={pickerSelectStyles.inputIOS} onChangeText={(text) => this.setState({answer: text, isAnswerSet: true})}/>
-        </View>
-        <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
-          <Text style={styles.subtitle}>Confirm Answer: </Text>
-          <TextInput style={pickerSelectStyles.inputIOS} onChangeText={(text) => this.setState({securityAnswer:text, isConfirmAnswerSet: true})}/>
-        </View>
-
+      <ScrollView>
         <View style={styles.container}>
-          <View style={{ paddingVertical: 10, marginRight: 32, marginLeft: 32 }}>
-            <TouchableHighlight
-              style={styles.button}
-              onPress={() => this.handleAddRecipient()}
-              underlayColor='#fff'>
-                <Text style={styles.buttonText}>Add Recipient</Text>
-            </TouchableHighlight>
+          <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
+            <Text style={styles.subtitle}>First Name: </Text>
+            <TextInput style={pickerSelectStyles.inputIOS} onChangeText={(text) => this.setState({firstName: text, isFirstNameSet: true})}/>
+          </View>
+          <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
+            <Text style={styles.subtitle}>Last Name: </Text>
+            <TextInput style={pickerSelectStyles.inputIOS} onChangeText={(text) => this.setState({lastName: text, isLastNameSet: true })}/>
+          </View>
+          <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
+            <Text style={styles.subtitle}>Email: </Text>
+            <TextInput style={pickerSelectStyles.inputIOS} onChangeText={(text) => this.setState({isEmailSet: true, isEmailSet: true})}/>
+          </View>
+          <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
+            <Text style={styles.subtitle}>Security Question: </Text>
+            <TextInput style={pickerSelectStyles.inputIOS} onChangeText={(text) => this.setState({isSecuritySet: true})} />
+          </View>
+          <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
+            <Text style={styles.subtitle}>Answer: </Text>
+            <TextInput style={pickerSelectStyles.inputIOS} onChangeText={(text) => this.setState({answer: text, isAnswerSet: true})}/>
+          </View>
+          <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
+            <Text style={styles.subtitle}>Confirm Answer: </Text>
+            <TextInput style={pickerSelectStyles.inputIOS} onChangeText={(text) => this.setState({securityAnswer:text, isConfirmAnswerSet: true})}/>
+          </View>
+
+          <View style={styles.container}>
+            <View style={{ paddingVertical: 10, marginRight: 32, marginLeft: 32 }}>
+              <TouchableHighlight
+                style={styles.button}
+                onPress={() => this.handleAddRecipient()}
+                underlayColor='#fff'>
+                  <Text style={styles.buttonText}>Add Recipient</Text>
+              </TouchableHighlight>
+            </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

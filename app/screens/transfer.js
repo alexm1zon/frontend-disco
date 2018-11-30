@@ -76,7 +76,7 @@ async componentWillMount() {
 }
 
 errorAlert(error) {
-  Alert.alert(`${error}`, '', [{ text: 'Okay', onPress: null }]);
+  Alert.alert(`${error}`, null, [{ text: 'Okay', onPress: null }]);
 }
 
 successAlert() {
@@ -146,7 +146,6 @@ async recordTransaction() {
       amount: this.state.transferAmount
     });
 
-    console.log('Transaction Array is ', transactionArray);
     if(this.state.isChequing){
       await AsyncStorage.setItem('chequingTransaction', JSON.stringify(transactionArray));
     } else {
@@ -160,6 +159,7 @@ async handleSubmit() {
     this.updateAccountBalance();
     this.recordTransaction();
     this.successAlert();
+    this.setState({dummy:true});
   } catch (error) {
     this.errorAlert(error);
   }
@@ -170,95 +170,88 @@ render() {
   let balance;
   if(this.state.isChequing) {
     balance =  <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 18 }}>
-               <Text>Balance: {this.state.chequingBalance} $</Text> </View>
-  } else if (this.state.isSavings){
+               <Text>Balance: {this.state.chequingBalance} $</Text></View>
+  }
+  if (this.state.isSavings){
     balance = <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 18 }}>
-              <Text>Balance: {this.state.savingBalance} $</Text> </View>
+              <Text>Balance: {this.state.savingBalance} $</Text></View>
   }
 
     return (
-          <View style={styles.container}>
-            <View style={{ paddingVertical: 5 }} />
-            <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
-            <Text style={styles.subtitle}>Payee:</Text>
-              <RNPickerSelect
-                  placeholder={{
-                      label: 'Select Payee',
-                      value: null,
-                  }}
-                  items={this.state.payeeItems}
-                  onValueChange={(value) => {
-                    if (value === '9999') {
-                      this.props.navigation.navigate("AddPayee");
-                    } else {
-                      this.setState({
-                        isPayeeSet: true
-                      });
-                    }
-                  }}
-                  onUpArrow={() => {
-                      this.inputRefs.name.focus();
-                  }}
-                  onDownArrow={() => {
-                      this.inputRefs.picker2.togglePicker();
-                  }}
-                  style={{ ...pickerSelectStyles }}
-                  ref={(el) => {
-                      this.inputRefs.picker = el;
-                  }}
-              />
-            </View>
-            <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
-              <View style={{ paddingVertical: 5 }} />
+      <View style={styles.container}>
+        <View style={{ paddingVertical: 15, marginRight: 16, marginLeft: 16 }}>
+          <Text style={styles.subtitle}>Payee:</Text>
+            <RNPickerSelect
+                placeholder={{
+                    label: 'Select Payee',
+                    value: null,
+                }}
+                items={this.state.payeeItems}
+                onValueChange={(value) => {
+                  if (value === '9999') {
+                    this.props.navigation.navigate("AddPayee");
+                  } else {
+                    this.setState({
+                      isPayeeSet: true
+                    });
+                  }
+                }}
+                onUpArrow={() => {
+                    this.inputRefs.name.focus();
+                }}
+                onDownArrow={() => {
+                    this.inputRefs.picker2.togglePicker();
+                }}
+                style={{ ...pickerSelectStyles }}
+                ref={(el) => {
+                    this.inputRefs.picker = el;
+                }}/>
+          </View>
+            <View style={{ paddingVertical: 15, marginRight: 16, marginLeft: 16 }}>
               <Text style={styles.subtitle}>Amount: </Text>
-              <TextInput
-                style={pickerSelectStyles.inputIOS}
-                onChangeText={(amount)=> this.setState({isAmountSet: true, transferAmount: amount})}
-              />
-              />
+                <TextInput
+                  style={pickerSelectStyles.inputIOS}
+                  onChangeText={(amount)=> this.setState({isAmountSet: true, transferAmount: Number(amount)})}/>
             </View>
-            <View style={{ paddingVertical: 5 }} />
-
-            <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
-            <Text style={styles.subtitle}>From Account:</Text>
-              <RNPickerSelect
-                  placeholder={{
-                      label: 'Select from account',
-                      value: null,
-                  }}
-                  items={this.state.accountItems}
-                  onValueChange={(value) => {
-                      if (value === 'chequing') {
-                        this.setState({
+            <View style={{ paddingVertical: 15, marginRight: 16, marginLeft: 16 }}>
+              <View><Text style={styles.subtitle}>From Account:</Text></View>
+                <RNPickerSelect
+                    placeholder={{
+                        label: 'Select from account',
+                        value: null,
+                    }}
+                    items={this.state.accountItems}
+                    onValueChange={(value) => {
+                        if (value === 'chequing') {
+                          this.setState({
+                              isAccountSet: true,
+                              isChequing: true,
+                              isSavings: false
+                          });
+                        } else if (value === 'savings'){
+                          this.setState({
                             isAccountSet: true,
-                            isChequing: true,
+                            isChequing: false,
+                            isSavings: true
+                          });
+                        } else {
+                          this.setState({
+                            isAccountSet: false,
+                            isChequing: false,
                             isSavings: false
-                        });
-                      } else if (value === 'savings'){
-                        this.setState({
-                          isAccountSet: true,
-                          isChequing: false,
-                          isSavings: true
-                        });
-                      } else {
-                        this.setState({
-                          isAccountSet: false,
-                          isChequing: false,
-                          isSavings: false
-                        });
-                      }
-                  }}
-                  onUpArrow={() => {
-                      this.inputRefs.name.focus();
-                  }}
-                  onDownArrow={() => {
-                      this.inputRefs.picker2.togglePicker();
-                  }}
-                  style={{ ...pickerSelectStyles }}
-                  ref={(el) => {
-                      this.inputRefs.picker = el;
-                  }}
-              />
+                          });
+                        }
+                    }}
+                    onUpArrow={() => {
+                        this.inputRefs.name.focus();
+                    }}
+                    onDownArrow={() => {
+                        this.inputRefs.picker2.togglePicker();
+                    }}
+                    style={{ ...pickerSelectStyles }}
+                    ref={(el) => {
+                        this.inputRefs.picker = el;
+                    }}/>
               </View>
               {balance}
               <View style={styles.container}>
@@ -267,13 +260,13 @@ render() {
                     style={styles.button}
                     onPress={() => this.handleSubmit()}
                     underlayColor='#fff'>
-                      <Text style={styles.buttonText}>Pay Bill</Text>
+                    <Text style={styles.buttonText}>Pay Bill</Text>
                   </TouchableHighlight>
                 </View>
               </View>
-        </View>
+          </View>
     );
-}
+  }
 }
 const styles = StyleSheet.create({
   container: {
@@ -321,5 +314,5 @@ const pickerSelectStyles = StyleSheet.create({
         borderRadius: 4,
         backgroundColor: 'white',
         color: 'black',
-    },
+    }
 });

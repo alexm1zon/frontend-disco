@@ -66,7 +66,6 @@ export default class Login extends Component {
             title="LOGIN"
           >
             <Text style={styles.loginButton}>LOGIN </Text>
-            {this.props.attemptingLogin && (
               <View style={styles.activityIndicatorContainer}>
                 <ActivityIndicator size="small" color="gray" />
               </View>

@@ -140,6 +140,7 @@ async handleSubmit() {
     this.updateAccountBalance();
     this.recordTransaction();
     this.successAlert();
+    return this.setState({dummy:true});
   } catch (error) {
     this.errorAlert(error);
   }
@@ -182,8 +183,10 @@ render() {
     }
   }
     return (
-        <ScrollView style={{backgroundColor:'white'}}>
+      <ScrollView style={{backgroundColor:'white'}}>
+
         <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
+
            <Text style={styles.subtitle}>Send To:</Text>
              <RNPickerSelect
                  placeholder={{
@@ -257,22 +260,19 @@ render() {
                   }}
               />
           </View>
-
             <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
               {balance}
               <View style={{ paddingVertical: 5 }} />
               <Text style={styles.subtitle}>Amount: </Text>
               <TextInput
                 style={pickerSelectStyles.inputIOS}
-                onChangeText={(amount)=> this.setState({isAmountSet: true, transferAmount: amount})}
+                onChangeText={(amount)=> this.setState({isAmountSet: true, transferAmount: Number(amount)})}
               />
             </View>
 
             <View style={{ paddingVertical: 10, marginRight: 16, marginLeft: 16 }}>
               <Text style={styles.subtitle}>Message (optional): </Text>
               <TextInput
-                multiline = {true}
-                numberOfLines = {4}
                 style={pickerSelectStyles.inputIOS}
               />
             </View>

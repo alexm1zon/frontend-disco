@@ -6,7 +6,8 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "prod": "exp start --tunnel --no-dev --minify"
   },
   "dependencies": {
     "expo": "^30.0.1",

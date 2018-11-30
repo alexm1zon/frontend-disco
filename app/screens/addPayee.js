@@ -37,10 +37,11 @@ export default class AddPayee extends Component {
       label: `${this.state.payeeName}`,
       value: `${payeeArray.length+1}`
     });
-    payeeArray.sort((a, b) => {
+    payeeArray.sort(function(a, b) {
         return a.value > b.value;
     });
     await AsyncStorage.setItem('payeeArray', JSON.stringify(payeeArray));
+    this.setState({payee:true});
   }
 
   successAlert() {
